@@ -9,9 +9,9 @@
     "build": "webpack"
   },
   "dependencies": {
-    "react": "16.8.4",
-    "react-dom": "16.8.4",
-    "react-router-dom": "5.0.0"
+    "@material-ui/core": "^4.5.1",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
   },
   "author": "STP",
   "license": "UNLICENSED",
