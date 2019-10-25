@@ -47,18 +47,18 @@ export default function App() {
 
     const prepareData = (param) => {
         if (param && param.length > 0 && !isData){
-          setIsData(true);
-          param.forEach(item => {
-            let date = item.date.split(" ");
-            let month = date[1];
-            let monthEng = dataSpec.filter(el => {
-              return el[month];
-            })[0][month];
-            return item.date = `${date[0]} ${monthEng} ${date[2]}`;
-          })
-          return param;
+            setIsData(true);
+            param.forEach(item => {
+                let date = item.date.split(" ");
+                let month = date[1];
+                let monthEng = dataSpec.filter(el => {
+                    return el[month];
+                })[0][month];
+                return item.date = `${date[0]} ${monthEng} ${date[2]}`;
+            })
+            return param;
         }
-      }
+    }
 
     useEffect(() => {
         let combinedData = {"sports":{}, "fashion":{}};

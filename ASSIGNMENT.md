@@ -31,3 +31,10 @@ Also please don’t forget about commit messages.
 
 Feel free to get in touch with us at any time throughout this task in case of any questions.
 We realise and appreciate that you’re taking personal time out to complete this task so we’re happy to help.
+
+###########################
+Descrittion:
+
+I decided to build this application using React (newest verion to be able use react hooks), because of the performance and the ability to handle and transfer data in application. React hooks make code very clear and finall bundle file have smaler size. Based on my knowlage even to 50% due to previous standard of code. I used the MaterialUI library, which provides ready-made styled components. The main reasons were aesthetic considerations and quick work time. I use Sass for my own styles for better code transparency and work swearing. I added Babel to transpose the code to a standard that older browsers support and so that I can use ES6 and newer specifications features. I was thinking about Redux but this application is too small for that. But by using Redux code will be more transparent and easy to debbug. 
+
+I will gladly talk to the whole implementation in more detail at the next stage :)

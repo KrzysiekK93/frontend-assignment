@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Articles from './Articles';
+import Articles from './articles/Articles';
 
 export default function Content(props) {
   const [contentState, setContentState] = useState([]);
 
   const filterData = () => {
-    debugger;
     if (props.state.sport === false && props.state.fashion === true) {
       let fashion = props.data.filter(el => {
           return el.category == 'fashion'

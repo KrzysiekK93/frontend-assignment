@@ -1,6 +1,6 @@
 import React from 'react';
 import { Hidden  } from '@material-ui/core';
-import Loader from '../shared/Loader';
+import Loader from '../../../shared/Loader';
 
 const Content = (props) => {
   const renderData = () => props.data.map(item => {

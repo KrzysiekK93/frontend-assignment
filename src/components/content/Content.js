@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import List from './List';
+import List from './list/List';
 
 export default function Content(props) {
   const [contentState, setContentState] = useState([]);
