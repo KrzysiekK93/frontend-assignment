@@ -5,7 +5,8 @@
     flex-direction: column;
     height: 20px;
     width: 20px;
-    margin-left: 10px;;
+    margin-left: 10px;
+    cursor: pointer;
     .up{
         width: 0; 
         height: 0; 
@@ -56,4 +57,13 @@
             line-height: 1.125rem;
         }
     }
+}
+
+.error-title{
+    color: #f50057;
+    text-decoration: underline;
+    font-size: 1.25rem;
+    margin: 0;
+    padding: 25px 0;
+    text-align: center;
 }

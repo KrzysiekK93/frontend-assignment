@@ -1,50 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import Content from './components/content/Content';
-import { Grid, Container, Hidden  } from '@material-ui/core';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import { Grid, Container, Hidden, Checkbox, FormControlLabel, FormGroup } from '@material-ui/core';
 
 export default function App() {
     const [articles, setArticles] = useState([]);
-    const [error, setError] = useState();
-    const [state, setState] = React.useState({
+    const [isError, setIsError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [sortUp, setSortUp] = useState(false);
+    const [sortDown, setSortDown] = useState(false);
+    const [state, setState] = useState({
         fashion: true,
         sport: true,
-      });
+    });
     
     const handleChange = (name) => (event) => {
         setState({ ...state, [name]: event.target.checked });
     };
 
     const handleSortUp = () => {
-        const sortData = articles;
-        sortData.sort((a,b) => {
-            debugger;
-            if (a.date > b.date) {
-                return -1;
-            }
-            if (b.date > a.date) {
-                return 1;
-            }
-            return 0;
-        })
-        setArticles(sortData)
     }
 
     const handleSortDown = () => {
-        const sortData = articles;
-        sortData.sort((a,b) => {
-            debugger;
-            if (a.date < b.date) {
-                return -1;
-            }
-            if (b.date < a.date) {
-                return 1;
-            }
-            return 0;
-        })
-        setArticles(sortData)
     }
 
     const fetchSportArticles = fetch("http://localhost:6010/articles/sports").then(response => { 
@@ -55,25 +31,10 @@ export default function App() {
         return response.json()
     });
 
-    const filterData = () => {
-        if (!checkboxes.sport) {
-            let fashion = props.data.filter(el => {
-                return el.category == 'fashion'
-            })
-            setFarticles(fashion)
-        } else if (!checkboxes.fashion) {
-            let sport = props.data.filter(el => {
-                return el.category == 'sport'
-            })
-            setFarticles(sport)
-        } else {
-          setFarticles(props.data)
-        }
-      }
-    
     useEffect(() => {
         let combinedData = {"sports":{}, "fashion":{}};
         let allArticles = [];
+        setIsLoading(true);
         Promise.all([fetchSportArticles, fetchFashionArticles])
         .then(values => {
             combinedData["sports"] = values[0];
@@ -81,12 +42,15 @@ export default function App() {
             for (let el in combinedData) {
                 allArticles.push(...combinedData[el].articles);
             }
-            setArticles(allArticles);
             return allArticles;
+        })
+        .then(data => {
+            setArticles(data);
+            setIsLoading(false);
         })
         .catch(error => {
             console.log(error);
-            setError(error)
+            setIsError(true)
         });
     }, []);
 
@@ -110,8 +74,8 @@ export default function App() {
                             <div className="d-flex">
                                 <h4>Sort by date</h4>
                                 <span className="sort-wrapper">
-                                    <div className="up" onClick={handleSortUp}></div>
-                                    <div className="down" onClick={handleSortDown}></div>
+                                    <div className="up" onClick={handleSortUp()}></div>
+                                    <div className="down" onClick={handleSortDown()}></div>
                                 </span>
                             </div>
                         </Hidden>
@@ -139,7 +103,7 @@ export default function App() {
                     </FormGroup>
                 </Grid>
                 <Grid item xs={12} sm={12} md={10} lg={10}>
-                    <Content data={articles} state={state} error={error}/>
+                    <Content data={articles} state={state} isLoading={isLoading} isError={isError} sort={sortDown, sortUp}/>
                 </Grid>
             </Grid>
         </Container>

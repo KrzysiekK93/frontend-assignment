@@ -1,36 +1,38 @@
-import React from 'react';
-import { Hidden  } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import Articles from './Articles';
+import { Grid } from '@material-ui/core';
 
-const Content = (props) => {
-  const renderData = () => props.data.map(item => {
-    const style = {
-      backgroundImage: `url(${item.image})`
-    };
-    return (
-        <article key={item.id} className="article">
-          <div className="photo" style={style}>
-            {/* Originally I wanted to use img but for visual reasons I decided on background-image */}
-          </div>
-          <div className="content">
-            <header>
-              <h2>{item.title}</h2>
-              <p>{item.date}</p>
-            </header>
-            {/* I used ready-made solutions to hide elements on the page provided by mateialUi */}
-            <Hidden smDown>
-              <p>{item.preamble}</p>
-            </Hidden>
-          </div>
-        </article>
-        )
-      }
-  );
+
+export default function Content(props) {
+  console.log(props);
+  const [contentState, setContentState] = useState([]);
+
+  const filterData = () => {
+    if (props.state.sport === false && props.state.fashion === true) {
+      let fashion = props.data.filter(el => {
+          return el.category == 'fashion'
+      })
+      setContentState(fashion)
+    } else if (props.state.fashion === false && props.state.sport === true) {
+      let sport = props.data.filter(el => {
+          return el.category == 'sport'
+      })
+      setContentState(sport)
+    } else if (props.state.fashion === false && props.state.fashion === false) {
+      setContentState([])
+    } else {
+      setContentState(props.data)
+    } 
+  }
+
+  useEffect(() => {
+    filterData();
+  }, [props]);
+
 
   return (
     <div>
-        {renderData()}
+      <Articles data={contentState} isLoading={props.isLoading} isError={props.isError}/>
     </div>
   )
 };
-
-export default Content;
