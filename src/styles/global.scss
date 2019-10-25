@@ -1,0 +1,15 @@
+body, html {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    color: black;
+    margin: 0;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+#app{
+    display: flex;
+    margin-top: 50px;
+}

@@ -1,0 +1,20 @@
+//Rozdzielone style odpowiedzialne za responsywność
+@media (max-width: 600px) {
+    .article{
+        .photo{
+            min-height: 150px;
+        }
+        .content{
+            header{
+                flex-direction: column;
+                h2{
+                    margin: 0;
+                }
+            }
+        }
+    }
+    // Helpers
+    .justyfy-sb-sm{
+        justify-content: space-between;
+    }
+}
