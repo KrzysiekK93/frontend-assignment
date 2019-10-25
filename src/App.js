@@ -12,15 +12,29 @@ export default function App() {
         fashion: true,
         sport: true,
     });
+    const [isData, setIsData] = useState(false);
+    const dataSpec = [
+      {"januar": "January"},
+      {"februar": "February"},
+      {"oktober": "October"},
+      {"mai": "May"},
+      {"september": "September"},
+      {"desember": "December"},
+      {"november": "November"},
+    ]
     
     const handleChange = (name) => (event) => {
         setState({ ...state, [name]: event.target.checked });
     };
 
     const handleSortUp = () => {
+        setSortUp(true);
+        setSortDown(false);
     }
 
     const handleSortDown = () => {
+        setSortDown(true);
+        setSortUp(false);
     }
 
     const fetchSportArticles = fetch("http://localhost:6010/articles/sports").then(response => { 
@@ -30,6 +44,21 @@ export default function App() {
     const fetchFashionArticles = fetch("http://localhost:6010/articles/fashion").then(response => {
         return response.json()
     });
+
+    const prepareData = (param) => {
+        if (param && param.length > 0 && !isData){
+          setIsData(true);
+          param.forEach(item => {
+            let date = item.date.split(" ");
+            let month = date[1];
+            let monthEng = dataSpec.filter(el => {
+              return el[month];
+            })[0][month];
+            return item.date = `${date[0]} ${monthEng} ${date[2]}`;
+          })
+          return param;
+        }
+      }
 
     useEffect(() => {
         let combinedData = {"sports":{}, "fashion":{}};
@@ -45,7 +74,7 @@ export default function App() {
             return allArticles;
         })
         .then(data => {
-            setArticles(data);
+            setArticles(prepareData(data));
             setIsLoading(false);
         })
         .catch(error => {
@@ -74,8 +103,8 @@ export default function App() {
                             <div className="d-flex">
                                 <h4>Sort by date</h4>
                                 <span className="sort-wrapper">
-                                    <div className="up" onClick={handleSortUp()}></div>
-                                    <div className="down" onClick={handleSortDown()}></div>
+                                    <div className="up" onClick={handleSortUp}></div>
+                                    <div className="down" onClick={handleSortDown}></div>
                                 </span>
                             </div>
                         </Hidden>
@@ -103,7 +132,7 @@ export default function App() {
                     </FormGroup>
                 </Grid>
                 <Grid item xs={12} sm={12} md={10} lg={10}>
-                    <Content data={articles} state={state} isLoading={isLoading} isError={isError} sort={sortDown, sortUp}/>
+                    <Content data={articles} state={state} isLoading={isLoading} isError={isError} sortUp={sortUp} sortDown={sortDown}/>
                 </Grid>
             </Grid>
         </Container>

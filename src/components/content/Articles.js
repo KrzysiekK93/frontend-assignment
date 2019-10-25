@@ -9,9 +9,16 @@ const Content = (props) => {
     };
     return (
         <article key={item.id} className="article">
-          <div className="photo" style={style}>
-            {/* Originally I wanted to use img but for visual reasons I decided on background-image */}
-          </div>
+          {item.image ? (
+            <div className="photo" style={style}>
+              {/* Originally I wanted to use img but for visual reasons I decided on background-image */}
+            </div>
+          ) : (
+            <div className="photo">
+              <p>No photo</p>
+            </div>
+          )}
+          
           <div className="content">
             <header>
               <h2>{item.title}</h2>

@@ -1,38 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import Articles from './Articles';
-import { Grid } from '@material-ui/core';
-
+import List from './List';
 
 export default function Content(props) {
-  console.log(props);
   const [contentState, setContentState] = useState([]);
-
-  const filterData = () => {
-    if (props.state.sport === false && props.state.fashion === true) {
-      let fashion = props.data.filter(el => {
-          return el.category == 'fashion'
-      })
-      setContentState(fashion)
-    } else if (props.state.fashion === false && props.state.sport === true) {
-      let sport = props.data.filter(el => {
-          return el.category == 'sport'
-      })
-      setContentState(sport)
-    } else if (props.state.fashion === false && props.state.fashion === false) {
-      setContentState([])
+  const sortFn = () => {
+    if (props.sortUp === true && props.sortDown === false) {
+      handleSortUp();
+    } else if (props.sortUp === false && props.sortDown === true) {
+      handleSortDown();
     } else {
-      setContentState(props.data)
-    } 
+      return;
+    }
+  }
+
+  const handleSortUp = () => {
+    let sortData = contentState;
+    contentState.sort((a,b) => {
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    })
+    setContentState(sortData)
+  }
+
+  const handleSortDown = () => {
+    let sortData = contentState;
+    sortData.sort((a,b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    })
+    setContentState(sortData)
   }
 
   useEffect(() => {
-    filterData();
+    setContentState(props.data)
+    sortFn();
   }, [props]);
-
 
   return (
     <div>
-      <Articles data={contentState} isLoading={props.isLoading} isError={props.isError}/>
+      <List data={contentState} state={props.state} isLoading={props.isLoading} isError={props.isError}/>
     </div>
   )
 };
